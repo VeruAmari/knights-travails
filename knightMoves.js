@@ -15,7 +15,22 @@ export default function knightMoves(start, end) {
     [1, -2],
     [2, -1],
   ];
-  let squares = [];
+
+  // Some pseudocode
+  // Try to move from start to end
+  // Let's say end is [6,0]
+  // And start is [1, 2]
+  // [3, 3]
+  // [5, 2]
+  // [6, 0]
+  // Let's try with [0, 0] [3,2]
+  // [1, 2]
+  // [2, 4]
+  // [5, 4]
+  // If the difference between x and y is more than 1
+  //
+
+  let squares = {};
   for (let x = 0; x < 8; x++) {
     for (let y = 0; y < 8; y++) {
       const square = vertex([x, y]);
@@ -29,8 +44,14 @@ export default function knightMoves(start, end) {
           square.moves.push([x + element[0], y + element[1]]);
         }
       });
-      squares.push(square);
+      squares[`${square.square[0]},${square.square[1]}`] = square;
     }
   }
-  return squares;
+
+  function traverse() {
+    console.log("Start: ", squares[`${start[0]},${start[1]}`]);
+    console.log("End: ", squares[`${end[0]},${end[1]}`]);
+  }
+  const path = traverse();
+  return path;
 }
