@@ -1,6 +1,6 @@
 export default function vertex(arr) {
   let square = arr;
-  let moves = [];
+  //let moves = {};
 
-  return { moves, square };
+  return square;
 }
