@@ -1,9 +1,5 @@
 export default function graph(x, y) {
-  //
-  const MAX = 7;
-  const MIN = 0;
-
-  // Defines the set of moves of a knight
+  // Defines a knight's set of moves
   const moves = [
     [2, 1],
     [1, 2],
@@ -73,9 +69,6 @@ export default function graph(x, y) {
             edge = 1;
           }
         }
-
-        //        vertexList[key1];
-        //      vertexList[key2];
         yMatrix.push(edge);
       }
       xMatrix.push(yMatrix);
@@ -105,13 +98,6 @@ export default function graph(x, y) {
         }`;
         if (vertices[moveKey]) {
           adjacency[key][moveKey] = vertexList[moveKey];
-          /*
-          if (!adjacency[key]) {
-            adjacency[key] = vertexList[moveKey];
-          } else {
-            adjacency[key][moveKey] = vertexList[moveKey];
-          }
-        */
         }
       }
     }
@@ -119,14 +105,6 @@ export default function graph(x, y) {
   };
 
   let vertices = defineVertices(x, y);
-  /*
-  let list = edgeList(vertices);
-  let matrix = edgeMatrix(vertices);
-*/
+
   return { vertices, edgeList, edgeMatrix, adjacencyList };
 }
-//const myGraph = graph(8, 8);
-
-//console.log(myGraph.adjacencyList(myGraph.vertices));
-
-// console.log(myGraph.matrix.string);
