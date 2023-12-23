@@ -1,8 +1,24 @@
-import vertex from "./nodes.js";
+import graph from "./graph.js";
 
-export default function knightMoves(start, end) {
+export default function knightMoves(startArr, endArr) {
   // Movement Rules
   // Defines boundaries of the board
+
+  const BOARD_SIZE_X = 8;
+  const BOARD_SIZE_Y = 8;
+
+  const board = graph(BOARD_SIZE_X, BOARD_SIZE_Y);
+  const vertices = board.vertices;
+  // const list = board.edgeList(vertices);
+  // const matrix = board.edgeMatrix(vertices);
+  const startKey = [`${startArr[0]},${startArr[1]}`];
+  const endKey = [`${endArr[0]},${endArr[1]}`];
+
+  const start = vertices[startKey];
+  const end = vertices[endKey];
+  const adjacencyList = board.adjacencyList(board.vertices);
+  // Deprecated code
+  /*
   const MAX = 7;
   const MIN = 0;
 
@@ -17,6 +33,7 @@ export default function knightMoves(start, end) {
     [1, -2],
     [2, -1],
   ];
+  */
 
   // Some pseudocode
   // Try to move from start to end
@@ -24,25 +41,32 @@ export default function knightMoves(start, end) {
    * Check if any of moves are the target when performed from current square.
    *
    */
+
   //Unused object//
-  const squares = {};
+  //const squares = {};
   //Unused object//
 
   // Object containing checked squares//
+
   const checked = {};
 
   // Queue of squares to be checked next//
+
   let queue = [start];
   let found = false;
   // Check if any of available moves is the target, if not, add them to queue
+  //Deprecated code
+  /*
   function checkMoves(current) {
-    if (!checked[`${current[0]},${current[1]}`]) {
-      checked[`${current[0]},${current[1]}`] = vertex(current);
+    const currKey = `${current[0]},${current[1]}`;
+    if (!checked[currKey]) {
+      checked[currKey] = vertices[currKey];
     }
     // Add current node to checked
     //checked[`${current[0]},${current[1]}`] = vertex(current[0], current[1]);
 
     console.log("\nCurrent:", current, "\nTarget:", end, "\n");
+
     const [x, y] = current;
     const [i, j] = end;
     for (const move of moves) {
@@ -72,8 +96,8 @@ export default function knightMoves(start, end) {
         }
       }
     }
-  }
-  // Older code
+  }*/
+  // Deprecated code
   /*
   function oldCheckMoves(current) {
     console.log("\nCurrent:", current, "\nTarget:", end, "\n");
@@ -138,6 +162,7 @@ export default function knightMoves(start, end) {
 
   let curr;
   while (queue.length > 0 && !found) {
+    // Need to find a way to record path. Maybe by adding a next attribute to vertex
     const next = queue.shift();
     if (!checked[`${next[0]},${next[1]}`]) {
       checked[`${next[0]},${next[1]}`] = next;
