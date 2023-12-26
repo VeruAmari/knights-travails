@@ -16,54 +16,70 @@ export default function knightMoves(startArr, endArr) {
 
   const adjacencyList = board.adjacencyList(board.vertices);
 
-  const checked = {};
+  function levelOrderSearch(keystart, keytarget) {
+    const checked = {};
 
-  // Queue of squares to be checked next//
+    // Queue of squares to be checked next//
 
-  let found = false;
-  // Check if any of available moves is the target, if not, add them to queue
+    let found = false;
+    function addToQueue(currentKey, queueTo, keytarget) {
+      // Checks if any of available moves is the target, if not, add them to queue
 
-  function levelOrderSearch(currentKey, queueTo) {
-    checked[currentKey] = currentKey;
-    for (let key in adjacencyList[currentKey]) {
-      if (key === endKey) {
-        console.log("Path found!");
-        found = true;
-        return;
+      checked[currentKey] = currentKey;
+      for (let key in adjacencyList[currentKey]) {
+        if (key === keytarget) {
+          found = true;
+          return [currentKey, key];
+        }
+
+        if (!checked[key] && !queueTo.includes(key)) {
+          queueTo.push(key);
+        }
       }
-
-      if (!checked[key]) {
-        queueTo.push(key);
-      }
+      return false;
     }
-  }
-
-  function levelOrderLooper() {
+    if (keystart === keytarget) {
+      return keytarget;
+    }
     let moves = 0;
 
-    const queue1 = [startKey];
+    const queue1 = [keystart];
     const queue2 = [];
+    const result = [];
+
     while (!found && (queue1.length > 0 || queue2.length > 0)) {
-      console.log(`Starting layer ${moves}.`);
       while (queue1.length > 0 && !found) {
         const next = queue1.shift();
-        levelOrderSearch(next, queue2);
+        const myPath = addToQueue(next, queue2, keytarget);
+        if (myPath) {
+          result.push(...myPath);
+        }
       }
       moves++;
-      console.log(`Starting layer ${moves}.`);
       while (queue2.length > 0 && !found) {
         const next = queue2.shift();
-        levelOrderSearch(next, queue1);
+        const myPath = addToQueue(next, queue1, keytarget);
+        if (myPath) {
+          result.push(...myPath);
+        }
       }
       moves++;
     }
     if (!found) {
       return "Path not found :(";
     }
-    return `Target square reached in ${moves} moves.`;
+    const theResult = {
+      path: result,
+      inMoves: `You made it in ${moves} moves! Here's your path:`,
+    };
+    return theResult;
   }
 
-  const result = levelOrderLooper();
-
+  const result = levelOrderSearch(startKey, endKey);
+  while (!result.path.includes(startKey)) {
+    // Iteratively check for the move from which given key was found in order to recreate the path
+    const newResult = levelOrderSearch(startKey, result.path[0]);
+    result.path.unshift(newResult.path[0]);
+  }
   return result;
 }

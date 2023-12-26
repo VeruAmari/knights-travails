@@ -11,6 +11,11 @@ export default function graph(x, y) {
     [2, -1],
   ];
 
+  // Defines a square
+  const vertex = (x, y) => {
+    const coordinates = [x, y];
+    return { coordinates };
+  };
   // Defines an edge between two squares
   const edgeObj = (inVertex, outVertex) => {
     return [inVertex, outVertex];
@@ -18,10 +23,12 @@ export default function graph(x, y) {
 
   // Defines legal squares in a grid of size X * Y
   const defineVertices = (sizeX, sizeY) => {
+    let id = 0;
     let vertices = {};
     for (let i = 0; i < sizeX; i++) {
       for (let j = 0; j < sizeY; j++) {
-        vertices[`${i},${j}`] = [i, j];
+        vertices[`${i},${j}`] = vertex(i, j, id);
+        id++;
       }
     }
     return vertices;
